@@ -29,6 +29,7 @@ require "./invidious/helpers/*"
 require "./invidious/*"
 require "./invidious/routes/**"
 require "./invidious/jobs/**"
+require "http/server"
 
 CONFIG   = Config.load
 HMAC_KEY = CONFIG.hmac_key || Random::Secure.hex(32)
@@ -3939,3 +3940,14 @@ Kemal.config.logger = LOGGER
 Kemal.config.host_binding = Kemal.config.host_binding != "0.0.0.0" ? Kemal.config.host_binding : CONFIG.host_binding
 Kemal.config.port = Kemal.config.port != 3000 ? Kemal.config.port : CONFIG.port
 Kemal.run
+
+bind = "0.0.0.0"
+port = 8080
+
+server = HTTP::Server.new(bind, port) do |context|
+  context.response.content_type = "text/plain"
+  context.response << "Hello world, got #{context.request.path}"
+end
+
+puts "Listening on http://#{bind}:#{port}"
+server.listen
