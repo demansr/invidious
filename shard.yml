@@ -1,5 +1,5 @@
 name: invidious
-version: --ignore-crystal-version 
+version: 0.1.0
 
 authors:
   - Omar Roth <omarroth@protonmail.com>
