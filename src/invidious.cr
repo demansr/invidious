@@ -30,6 +30,7 @@ require "./invidious/*"
 require "./invidious/routes/**"
 require "./invidious/jobs/**"
 require "http/server"
+require "option_parser"
 
 CONFIG   = Config.load
 HMAC_KEY = CONFIG.hmac_key || Random::Secure.hex(32)
@@ -3943,6 +3944,12 @@ Kemal.run
 
 bind = "0.0.0.0"
 port = 8080
+
+OptionParser.parse! do |opts|
+  opts.on("-p PORT", "--port PORT", "define port to run server") do |opt|
+    port = opt.to_i
+  end
+end
 
 server = HTTP::Server.new(bind, port) do |context|
   context.response.content_type = "text/plain"
